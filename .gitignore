@@ -25,6 +25,8 @@ node_modules/
 # OS specific
 .DS_Store
 .cursor/
+ga4_schema.txt
+
 
 # python
 .venv/

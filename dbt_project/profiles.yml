@@ -1,0 +1,13 @@
+dbt_project:
+  outputs:
+    dev:
+      dataset: "{{ env_var('DATASET') }}"
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      location: US
+      method: "{{ env_var('METHOD') }}"
+      priority: interactive
+      project: "{{ env_var('PROJECT') }}"
+      threads: 4
+      type: "{{ env_var('TYPE') }}"
+  target: dev
