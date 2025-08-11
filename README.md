@@ -1,15 +1,16 @@
-## GA4 × BigQuery × dbt でつくる分析パイプライン
+## BigQuery × dbt × GA4 でつくる分析パイプライン
 
-このリポジトリは、Google Analytics 4 のエクスポートデータを BigQuery 上でモデリングし、Jupyter Notebook からマーケティング・顧客のインサイトを導出するまでを一気通貫で構築したプロジェクトです。実務に近い形で「データ取得 → 変換 → マート化 → 可視化・分析」までを再現しています。
+このリポジトリは、Google Analytics 4 のエクスポートデータを BigQuery 上でモデリングし、Jupyter Notebook を用いてマーケティングや顧客のインサイトを分析するまでを一気通貫で構築したプロジェクトです。実務に近い形で「データ取得 → 変換 → マート化 → 可視化・分析」までを再現しています。
 
 ---
 
 ## プロジェクト概要（全体像）
+![プロジェクト概要](assets/project-overview.png)
+- **データソース**: [Publicn Google Analytics Data](https://developers.google.com/analytics/bigquery/web-ecommerce-demo-dataset)
 - **データ基盤**: BigQuery
 - **変換/モデリング**: dbt Core + `Velir/ga4` パッケージ（GA4用モデル定義）
   - *ポイント*: パッケージの標準モデルの一部を、提供サンプルとスキーマ差分があっても動くように上書き実装
 - **ノートブック**: Jupyter Notebook で可視化・分析
-![プロジェクト概要](assets/project-overview.png)
 
 ---
 
@@ -23,7 +24,7 @@
 
 3) **dbt で GA4 を事前定義モデルにより正規化**
    - `dbt_packages` の `Velir/ga4` を導入（[packages.yml](mdc:dbt_project/packages.yml)）
-   - 公開サンプルデータ古く、最新版に対応しているパッケージとの衝突が起きたので、 `base_ga4__events` を無効化し、公開データ差分に合わせて上書き
+   - 公開サンプルデータが古く、パッケージとの衝突が起きたので、 `base_ga4__events` を公開データ差分に合わせて上書き
      - 無効化設定: [dbt_project.yml](mdc:dbt_project/dbt_project.yml) の `+enabled: false`
      - 上書き実装: [base_ga4__events.sql](mdc:dbt_project/models/overrides/staging/base/base_ga4__events.sql)
      - 主な調整点:
@@ -64,4 +65,3 @@
 
 ## 参考
 - GA4 向け dbt モデル: [Velir/ga4 パッケージ](https://hub.getdbt.com/Velir/ga4/latest/)
-- 設計の参考記事: [Google Analytics, BigQuery & dbt – A dbt example project](https://stacktonic.com/article/google-analytics-big-query-and-dbt-a-dbt-example-project)
